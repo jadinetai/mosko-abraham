@@ -1,0 +1,27 @@
+[package]
+name = "abraham-frame-hosttest"
+version = "0.31.0-dev"
+edition = "2024"
+publish = false
+description = "Hosted unit tests for kernel/src/frame.rs (ABRAHAM 0.31a, P-08 two-track; evidence label SIMULATED)"
+
+# No dependencies. The library is the kernel's own frame.rs, compiled for the host.
+[dependencies]
+
+[lib]
+path = "src/lib.rs"
+
+# 0.32: the kernel's DIAGNOSTIC feature names, declared so svctable.rs compiles here without unknown-cfg warnings.
+# None is ever enabled for the hosted tests: they always see the PRODUCTION table as TABLE, and they test the
+# DIAG_* tables by name.
+[features]
+diag-svc-cycle = []
+diag-svc-defects = []
+diag-svc-slow = []
+diag-svc-stall = []
+diag-svc-refusals = []
+diag-svc-cascade = []
+# 0.33 DIAGNOSTIC application tables (apptable.rs); never enabled for the hosted tests.
+diag-app-registry-dup = []
+diag-app-false-exec = []
+diag-app-unknown-req = []

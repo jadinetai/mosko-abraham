@@ -1,0 +1,21 @@
+[package]
+name = "abraham-vm-launcher"
+version = "0.33.2"
+edition = "2021"
+description = "MOSKO Abraham 0.33 host-side VM launcher for Windows (D-ABR-024): boots a pinned Abraham kernel in the pinned QEMU and shows its serial console. Not Abraham code."
+publish = false
+
+# No dependencies: the standard library and hand-declared Windows API calls only (kernel32, advapi32), so nothing is
+# downloaded (D-ABR-024, requirement 8).
+[dependencies]
+
+[[bin]]
+name = "Abraham-VM-Launcher"
+path = "src/main.rs"
+
+[profile.release]
+opt-level = 2
+debug = false
+strip = true
+codegen-units = 1
+incremental = false

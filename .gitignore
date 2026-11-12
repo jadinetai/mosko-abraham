@@ -1,0 +1,10 @@
+target/
+build/
+evidence/
+runs/
+__pycache__/
+*.pyc
+*.exe
+*.elf
+*.fd
+*.zip

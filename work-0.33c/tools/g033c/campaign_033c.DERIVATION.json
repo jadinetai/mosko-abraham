@@ -1,0 +1,29 @@
+{
+ "source": "C:\\Users\\XxUnd\\OneDrive\\Documents\\Abraham\\work-0.33c\\tools\\g033\\campaign_033.py",
+ "source_sha256": "27962d05d76f7b05d16654fcb0fb6bdab1dc743b023154638418fd8315c9c398",
+ "derived": "C:\\Users\\XxUnd\\OneDrive\\Documents\\Abraham\\work-0.33c\\tools\\g033c\\campaign_033c.py",
+ "derived_sha256": "a40a40c23bfcb24aa20841ea83685cfa5aca186811d50734a3c6f8b3df01db23",
+ "substitutions": [
+  {
+   "from": "OUT = W / \"evidence\" / \"campaign-033\"\n",
+   "to": "OUT = W / \"evidence\" / \"campaign-033c\"\n",
+   "why": "the reproduction writes its own campaign folder"
+  },
+  {
+   "from": "CP_032B = W / \"evidence\" / \"start\" / \"ABR-0.33-V001\" / \"CHECKPOINT_work-0.32b.sha256\"",
+   "to": "CP_032B = HOME / \"work-0.33\" / \"evidence\" / \"start\" / \"ABR-0.33-V001\" / \"CHECKPOINT_work-0.32b.sha256\"",
+   "why": "the 0.32b checkpoint is read where TR-0041 recorded it (work-0.33 is never written)"
+  },
+  {
+   "from": "json.loads((W / \"evidence\" / \"campaign-033\" / \"BUILD_MANIFEST.json\").read_text())[\"kernels\"][k][\"sha256\"]",
+   "to": "json.loads((W / \"evidence\" / \"campaign-033c\" / \"BUILD_MANIFEST.json\").read_text())[\"kernels\"][k][\"sha256\"]",
+   "why": "kernel digests come from this campaign's own frozen manifest"
+  },
+  {
+   "from": "    P = \"ABR-0.33-\"\n    W032 = HOME",
+   "to": "    P = \"ABR-0.33c-\"\n    W032 = HOME",
+   "why": "new run ids in the main entries (ids are never reused); the supplement and demo entries are not used"
+  }
+ ],
+ "diff_lines": 40
+}

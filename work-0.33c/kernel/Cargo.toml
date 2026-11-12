@@ -1,0 +1,72 @@
+[package]
+name = "abraham-kernel"
+version = "0.33.0-dev"
+edition = "2024"
+publish = false
+description = "Abraham native x86-64 kernel (Rust no_std), ABRAHAM 0.33: closed application registry and launcher contract on the 0.32b services (D-ABR-009..023)"
+
+# No dependencies: everything the first boot needs is in this crate or in asm/entry.asm.
+[dependencies]
+
+[features]
+# 0.29 G6/G7 diagnostic builds only (never an accepted kernel). Each injects one well-defined
+# failure; the default build enables none of them.
+diag-fault-ud = []
+diag-fault-pf = []
+diag-early-fail = []
+# 0.31a Step 2 probe: read-only memory-map and page-table inventory (DIAGNOSTIC only).
+diag-memmap = []
+# 0.31a tests (DIAGNOSTIC builds only, never an accepted kernel):
+# allocate every frame to OUT_OF_MEMORY on the live kernel, write and verify, release all.
+diag-mem-exhaust = []
+# F-029-01 negative control: the 0.29 private page-table bump allocator, unchanged.
+diag-legacy-collision = []
+# Report-only ownership check, so the allocation guard can be shown in the negative control.
+diag-memcheck-nonfatal = []
+# D-ABR-012: a deliberate double release; the kernel must stop.
+diag-double-release = []
+# 0.31b tests (DIAGNOSTIC builds only, never an accepted kernel):
+# F-031a-E04: append a duplicate of the largest USABLE entry to the map both the allocator and the check read.
+diag-map-overlap = []
+# F-029-04: after 3 heartbeats the clock guard sees the TSC 2 s behind / 1 h ahead.
+diag-tsc-backward = []
+diag-tsc-jump = []
+# Lifecycle: request MEMORY_OWNED -> OPERATIONAL (invalid); the kernel must refuse and stop.
+diag-init-skip = []
+# 0.32 tests (DIAGNOSTIC builds only, never an accepted kernel; design §7):
+# a cyclic service table, refused at boot (the compile-time check is not applied to it);
+diag-svc-cycle = []
+# a start before OPERATIONAL, public queries (unknown name, MUTATE, unknown operation) and an invalid transition;
+diag-svc-refusals = []
+# an honest readiness failure, a false readiness claim, and a dependent of the failing service;
+diag-svc-defects = []
+# a bounded 20 ms step (overruns the 1 ms budget);
+diag-svc-slow = []
+# a 6 s step (longer than the clock guard's 5 s step: the misattribution limit).
+diag-svc-stall = []
+# 0.32b (audit finding 1): a dependency that fails while RUNNING, and its dependent later in the order.
+diag-svc-cascade = []
+# 0.33 tests (DIAGNOSTIC builds only, never an accepted kernel; design §9):
+# the fixed launchpad request script (17 rows) and the invalid-transition injection;
+diag-launchpad = []
+# deliberately invalid application tables, refused at boot (not checked at compile time):
+diag-app-registry-dup = []
+diag-app-false-exec = []
+diag-app-unknown-req = []
+
+[[bin]]
+name = "abraham-kernel"
+path = "src/main.rs"
+test = false
+bench = false
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+opt-level = 2
+codegen-units = 1
+lto = true
+debug = false
+incremental = false

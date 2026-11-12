@@ -1,0 +1,40 @@
+--- tools/g033/campaign_033.py
++++ tools/g033c/campaign_033c.py
+@@ -1,3 +1,5 @@
++# DERIVED by tools/g033c/derive_campaign_033c.py from tools/g033/campaign_033.py (ABRAHAM 0.33c, D-ABR-026).
++# Entries, commands, expected exit codes and post-checks are unchanged; see campaign_033c.DERIVATION.json.
+ """ABRAHAM 0.33 recorded test campaign driver (D-ABR-022: the application registry and launcher contract, and every
+ applicable regression of the accepted 0.32b, D-ABR-023; directive Phase 3 items 1-10).
+ 
+@@ -26,11 +28,11 @@
+ 
+ W = Path(__file__).resolve().parents[2]
+ HOME = W.parent
+-OUT = W / "evidence" / "campaign-033"
++OUT = W / "evidence" / "campaign-033c"
+ QEMU = "C:/Users/XxUnd/abraham-toolchain/qemu/11.1.0-weil-20260811"
+ EFI = "third_party/limine-12.9.6/extracted/limine-binary/BOOTX64.EFI"
+ PY = [sys.executable, "-I", "-B"]
+-CP_032B = W / "evidence" / "start" / "ABR-0.33-V001" / "CHECKPOINT_work-0.32b.sha256"
++CP_032B = HOME / "work-0.33" / "evidence" / "start" / "ABR-0.33-V001" / "CHECKPOINT_work-0.32b.sha256"
+ CP_032 = HOME / "work-0.32b" / "evidence" / "start" / "ABR-0.32b-V001" / "CHECKPOINT_work-0.32.sha256"
+ CP_031B = HOME / "work-0.32" / "evidence" / "start" / "ABR-0.32-V001" / "CHECKPOINT_work-0.31b.sha256"
+ CP_031A = HOME / "work-0.31b" / "evidence" / "start" / "ABR-0.31b-V002" / "CHECKPOINT_work-0.31.sha256"
+@@ -74,7 +76,7 @@
+ 
+ def digest(k):
+     # always the main campaign's frozen manifest (the supplement has none of its own)
+-    return json.loads((W / "evidence" / "campaign-033" / "BUILD_MANIFEST.json").read_text())["kernels"][k]["sha256"]
++    return json.loads((W / "evidence" / "campaign-033c" / "BUILD_MANIFEST.json").read_text())["kernels"][k]["sha256"]
+ 
+ 
+ def J(p):
+@@ -138,7 +140,7 @@
+     E = []
+     a = lambda *x: E.append(x)
+     ev = lambda d, i: EV / d / i
+-    P = "ABR-0.33-"
++    P = "ABR-0.33c-"
+     W032 = HOME / "work-0.32" / "evidence" / "ABR-BOOT-001" / "ABR-0.32-W001"
+     # ---- host: hosted tests, mutation checks, reproduction, re-judging, codes, static checks
+     a(P + "H001", f"hosted: every Rust test ({HOSTED_TESTS}: 128 from 0.32b, 27 launcher, 15 Phase 1, 4 new doc blocks); compile-fail codes with twins",

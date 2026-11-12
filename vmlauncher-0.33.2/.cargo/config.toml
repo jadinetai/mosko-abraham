@@ -1,0 +1,4 @@
+# /Brepro: the MSVC linker writes no time stamp, so two clean builds of the same source can be byte-identical.
+# crt-static: the C runtime is linked into the program, so it does not need vcruntime140.dll on the machine.
+[target.x86_64-pc-windows-msvc]
+rustflags = ["-C", "link-arg=/Brepro", "-C", "target-feature=+crt-static"]
